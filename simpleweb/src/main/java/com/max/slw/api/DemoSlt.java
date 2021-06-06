@@ -14,6 +14,15 @@ import java.io.PrintWriter;
 public class DemoSlt extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doHttp(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doHttp(req, resp);
+    }
+
+    private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println(req.getParameter("name"));
 
         DemoBean db = new DemoBean();
