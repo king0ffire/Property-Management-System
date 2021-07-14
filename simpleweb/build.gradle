@@ -45,4 +45,4 @@ tomcat {
     ajpProtocol  = 'org.apache.coyote.ajp.AjpNio2Protocol'
 }
 
-//tomcatRun.httpPort = 8888
+tomcatRun.httpPort = 8888
