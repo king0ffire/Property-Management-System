@@ -23,6 +23,7 @@ public class JdbcTest {
             // 4.执行Inser语句
             pst.setString(1, UUID.randomUUID().toString()); // 填补sql中的？1的值
             pst.setString(2, "张三和王二麻子"); // 填补sql中的？2的值
+
             int res = pst.executeUpdate(); // 执行insert、 update、 delete统一用executeUpdate
             System.out.println("插入成功："  + res);
             // 5. 无

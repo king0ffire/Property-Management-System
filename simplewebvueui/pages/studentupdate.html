@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>学生修改</title>
+		<link rel="stylesheet" type="text/css" href="../css/demo.css" />
+		<style>
+			.msg {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<fieldset>
+				<legend>修改</legend>
+				<div class="form-group">
+					<label>学号*:</label>
+					<input type="text"/>
+					<span class="msg">请输入三位编号</span>
+				</div>
+				<div class="form-group">
+					<label>姓名*:</label>
+					<input type="text"/>
+					<span class="msg">请输入姓名</span>
+				</div>
+				<div class="form-group">
+					<label>学校*:</label>
+					<select>
+						<option>LLL</option>
+					</select>
+					<span class="msg">请选择学校</span>
+				</div>
+				<div class="form-group">
+					<label></label>
+					<button>保存</button>
+					<button onclick="location.replace('studentselect.html');" >返回</button>
+					<span class="msg"></span>
+				</div>
+			</fieldset>
+		</div>
+		<script>
+		</script>
+	</body>
+</html>
