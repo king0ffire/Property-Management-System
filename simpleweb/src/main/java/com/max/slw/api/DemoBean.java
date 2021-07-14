@@ -6,4 +6,5 @@ import lombok.Data;
 public class DemoBean {
     private String name;
     private int age;
+    private boolean res;
 }
