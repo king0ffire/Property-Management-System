@@ -33,7 +33,7 @@ public class TestDemo {
     @Test
     public void testQuery() {
         DemoDao dao = new DemoDao();
-        List<Entity> list =  dao.query();
+        List<Entity> list =  dao.query("FFF");
         for(Entity en : list) {
             System.out.println(en.getStr("id"));
             System.out.println(en.getStr("name"));

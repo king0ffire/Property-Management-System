@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.UUID;
 
 public class DemoDao {
-    public List<Entity> query() {
+    public List<Entity> query(String name) {
         try {
-            List<Entity> list = Db.use().query("select * from myuser where 1=?", 1);
+            List<Entity> list = Db.use().query(
+                    "select * from myuser where name LIKE ?",
+                    "%" + name + "%");
             return list;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
