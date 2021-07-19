@@ -2,9 +2,8 @@ package com.lol.house.api;
 
 import cn.hutool.db.Entity;
 import cn.hutool.json.JSONUtil;
-import com.lol.house.dao.DemoDao;
+import com.lol.house.dao.PropertyRun;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,11 +15,10 @@ import java.util.List;
 @WebServlet(name = "PropertyQueryApi", urlPatterns = "/property/query")
 public class PropertyQueryApi extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String name = req.getParameter("name");
 
-        DemoDao dao = new DemoDao();
+        PropertyRun dao = new PropertyRun();
         List<Entity> list = dao.query(name);
         String json = JSONUtil.toJsonStr(list);
 
