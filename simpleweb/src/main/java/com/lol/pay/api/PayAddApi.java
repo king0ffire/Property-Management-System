@@ -41,7 +41,9 @@ public class PayAddApi extends HttpServlet {
         pay.setPay_remark(pay_remark);
         int res = payDao.insert(pay);
 
-        String flag = "插入成功：";
+        String flag = "Inserted: PropertyDeleteApi\n" +
+                "PropertyQueryApi\n" +
+                "PropertyUpdateApi";
         String json = JSONUtil.toJsonStr(flag + res);
 
         resp.setContentType("application/json;charset=utf-8");
