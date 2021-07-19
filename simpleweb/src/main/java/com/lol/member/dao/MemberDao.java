@@ -4,7 +4,6 @@ import cn.hutool.db.Db;
 import cn.hutool.db.Entity;
 import cn.hutool.db.Page;
 import cn.hutool.db.PageResult;
-import com.lol.owner.dao.Owner;
 
 import java.sql.SQLException;
 import java.util.List;
