@@ -1,18 +1,19 @@
-package com.lol.owner.dao;
+package com.lol.member.dao;
 
 import cn.hutool.db.Db;
 import cn.hutool.db.Entity;
 import cn.hutool.db.Page;
 import cn.hutool.db.PageResult;
+import com.lol.owner.dao.Owner;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
-public class OwnerDao {
-    public List<Entity> query(String owner_name) {
+public class MemberDao {
+    public List<Entity> query(String member_name) {
         try {
-            List<Entity> list = Db.use().query("select * from owner where owner_name LIKE ?", "%" + owner_name + "%");
+            List<Entity> list = Db.use().query("select * from member where member_name LIKE ?", "%" + member_name + "%");
             return list;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -22,7 +23,7 @@ public class OwnerDao {
 
     public PageResult<Entity> queryPager() {
         try {
-            PageResult<Entity> result = Db.use().page(Entity.create("Owner"), new Page(1, 5));
+            PageResult<Entity> result = Db.use().page(Entity.create("Member"), new Page(1, 5));
             return result;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -30,10 +31,10 @@ public class OwnerDao {
         return null;
     }
 
-    public int insert(Owner owner) {
+    public int insert(Member member) {
         String id = UUID.randomUUID().toString();
         try {
-            int res = Db.use().execute("INSERT INTO owner VALUES(?,?,?,?,?)", id, owner.getOwner_name(), owner.getOwner_gender(), owner.getOwner_hometown(), owner.getOwner_phone());
+            int res = Db.use().execute("INSERT INTO member VALUES(?,?,?,?,?,?)", id, member.getOwner_id(), member.getMember_name(), member.getMember_gender(), member.getMember_hometown(), member.getMember_phone());
             return res;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -41,9 +42,9 @@ public class OwnerDao {
         return 0;
     }
 
-    public int delete(Owner owner) {
+    public int delete(Member member) {
         try {
-            int res = Db.use().execute("DELETE FROM owner WHERE owner_id=?", owner.getOwner_id());
+            int res = Db.use().execute("DELETE FROM member WHERE member_id=?", member.getMember_id());
             return res;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -51,9 +52,9 @@ public class OwnerDao {
         return 0;
     }
 
-    public int update(Owner owner) {
+    public int update(Member member) {
         try {
-            int res = Db.use().execute("UPDATE owner SET owner_phone=? WHERE owner_id=?", owner.getOwner_phone(), owner.getOwner_id());
+            int res = Db.use().execute("UPDATE member SET member_phone=? WHERE member_id=?", member.getMember_phone(), member.getMember_id());
             return res;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
