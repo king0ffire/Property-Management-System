@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 
-@WebServlet(name = "PropertyAddApi", urlPatterns = "/House/add")
+@WebServlet(name = "PropertyAddApi", urlPatterns = "/house/add")
 public class PropertyAddApi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

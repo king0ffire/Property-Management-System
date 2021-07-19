@@ -20,9 +20,9 @@ public class PropertyRun {
     }
 
 
-    public int updateProperty(String new_landlord_id, String house_id) {
+    public int updateProperty(String new_landlord_id, String property_id) {
         try {
-            int res = Db.use().execute("UPDATE person SET user_id=? WHERE house_id=?", new_landlord_id, house_id);
+            int res = Db.use().execute("UPDATE property SET user_id=? WHERE houseproperty_id=?", new_landlord_id, property_id);
             return res;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -30,9 +30,9 @@ public class PropertyRun {
         return 0;
     }
 
-    public int deleteProperty(String name) {
+    public int deleteProperty(String property_id) {
         try {
-            int res = Db.use().execute("DELETE FROM person WHERE name=?", name);
+            int res = Db.use().execute("DELETE FROM property WHERE houseproperty_id=?", property_id);
             return res;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
