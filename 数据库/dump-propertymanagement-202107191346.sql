@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS `build`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `build` (
-  `build_id` varchar(36) NOT NULL,
+  `build_id` int NOT NULL,
   `build_name` varchar(36) DEFAULT NULL,
   `build_floornum` int DEFAULT NULL,
   `build_housenum` int DEFAULT NULL,
@@ -80,7 +80,7 @@ DROP TABLE IF EXISTS `house`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `house` (
   `houseproperty_id` varchar(36) NOT NULL,
-  `build_id` varchar(36) DEFAULT NULL,
+  `build_id` int DEFAULT NULL,
   `house_id` varchar(36) DEFAULT NULL,
   `house_time` date DEFAULT NULL,
   `house_type` varchar(36) DEFAULT NULL,
@@ -199,4 +199,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-19 11:06:23
+-- Dump completed on 2021-07-19 13:46:30
