@@ -1,4 +1,4 @@
-package com.lol.pm.common;
+package com.lol.cost.common;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

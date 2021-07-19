@@ -1,8 +1,8 @@
-package com.lol.pm.api;
+package com.lol.cost.api;
 
 import cn.hutool.db.Entity;
 import cn.hutool.json.JSONUtil;
-import com.lol.pm.dao.CostDao;
+import com.lol.cost.dao.CostDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "CostQueryApi", urlPatterns = "/cost/query")
+@WebServlet(name = "CostQueryApi", urlPatterns = "/com/lol/cost/query")
 public class CostQueryApi extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,4 +1,4 @@
-package com.lol.pm.dao;
+package com.lol.cost.dao;
 
 import lombok.Data;
 
