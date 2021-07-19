@@ -1,4 +1,4 @@
-package com.max.slw.dao;
+package com.lol.pm.dao;
 
 import lombok.Data;
 

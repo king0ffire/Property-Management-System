@@ -1,8 +1,8 @@
 package com.lol.pm.api;
 
 import cn.hutool.json.JSONUtil;
-import com.lol.pm.dao.CostDao;
-import com.lol.pm.dao.Cost;
+import com.lol.pm.dao.Pay;
+import com.lol.pm.dao.PayDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 
-@WebServlet(name = "CostAddApi", urlPatterns = "/cost/add")
-public class CostAddApi extends HttpServlet {
+@WebServlet(name = "PayAddApi", urlPatterns = "/pay/add")
+public class PayAddApi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doHttp(req, resp);
@@ -26,20 +26,20 @@ public class CostAddApi extends HttpServlet {
     }
 
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String cost_reason = req.getParameter("cost_reason");
-        String cost_time_str = req.getParameter("cost_time");
-        String owner_id = req.getParameter("owner_id");
-        String cost_total_str = req.getParameter("cost_total");
-        Date cost_time = Date.valueOf(cost_time_str);
-        int cost_total = Integer.parseInt(cost_total_str);
+        String cost_id = req.getParameter("cost_id");
+        String pay_money_str = req.getParameter("pay_money");
+        String pay_time_str = req.getParameter("pay_time");
+        String pay_remark = req.getParameter("pay_remark");
+        double pay_money = Double.parseDouble(pay_money_str);
+        Date pay_time = Date.valueOf(pay_time_str);
 
-        CostDao costDao = new CostDao();
-        Cost cost = new Cost();
-        cost.setCost_reason(cost_reason);
-        cost.setCost_time(cost_time);
-        cost.setOwner_id(owner_id);
-        cost.setCost_total(cost_total);
-        int res = costDao.insert(cost);
+        PayDao payDao = new PayDao();
+        Pay pay = new Pay();
+        pay.setCost_id(cost_id);
+        pay.setPay_money(pay_money);
+        pay.setPay_time(pay_time);
+        pay.setPay_remark(pay_remark);
+        int res = payDao.insert(pay);
 
         String flag = "插入成功：";
         String json = JSONUtil.toJsonStr(flag + res);
