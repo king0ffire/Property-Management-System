@@ -27,7 +27,7 @@ public class PropertyAddApi extends HttpServlet {
         Date check_in_date = Date.valueOf(req.getParameter("check_in_date"));
         String unit_type = req.getParameter("house_type");
         int area = Integer.parseInt(req.getParameter("house_area"));
-        String landlord_id = req.getParameter("house_id");
+        String landlord_id = req.getParameter("owner_id");
 
 
         PropertyRun dao = new PropertyRun();

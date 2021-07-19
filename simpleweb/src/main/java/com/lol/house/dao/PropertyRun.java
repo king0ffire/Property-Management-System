@@ -11,9 +11,9 @@ import java.util.UUID;
 
 public class PropertyRun {
 
-    public List<Entity> query(String name) {
+    public List<Entity> query(String house_id) {
         try {
-            List<Entity> list = Db.use().query("select * from house where name LIKE ?", "%" + name + "%");
+            List<Entity> list = Db.use().query("select * from house where house_id LIKE ?", "%" + house_id + "%");
             return list;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -23,7 +23,7 @@ public class PropertyRun {
 
     public PageResult<Entity> queryPager() {
         try {
-            PageResult<Entity> result = Db.use().page(Entity.create("myuser"), new Page(1, 5));
+            PageResult<Entity> result = Db.use().page(Entity.create("house"), new Page(1, 5));
             return result;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -46,7 +46,7 @@ public class PropertyRun {
 
     public int updateProperty(String new_landlord_id, String property_id) {
         try {
-            int res = Db.use().execute("UPDATE house SET user_id=? WHERE houseproperty_id=?", new_landlord_id, property_id);
+            int res = Db.use().execute("UPDATE house SET owner_id=? WHERE house_id=?", new_landlord_id, property_id);
             return res;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
