@@ -59,6 +59,7 @@ input {
 input[type=text] {
 	border: 1px solid #ccc;
 	padding: .5rem .3rem;
+	border-radius: 6px;
 }
 
 input[type=text]:focus {
@@ -70,14 +71,16 @@ button {
 	padding: 5px 8px;
 	color: #fff;
 	border: 1px solid #BCBCBC;
-	border-radius: 3px;
+	border-radius: 6px;
 	background-color: #009A61;
 	cursor: pointer;
 }
 button:hover{
 	opacity: 0.8;
 }
-
+select {
+	border-radius: 6px;
+}
 #app {
 	margin: 0 auto;
 	max-width: 720px

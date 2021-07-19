@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>增加用户</title>
+	</head>
+	<body>
+		<div id="app">
+			<table>
+				<tbody>
+					<tr>
+						<th style="width: 70px;">
+							<label>用户名*</label>
+						</th>
+						<td style="width: 200px;">
+							<input type="text" v-model="paramName" />
+						</td>
+						<td>
+							<span v-if="isShowError" style="color: red;">请输入5个字符</span>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<button @click="add()">增加</button>
+							<button>取消</button>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><span v-if="isGlobaErrorShow" style="color: red;">增加失败</span></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<script src="js/vue.js"></script>
+		<script src="js/axios.js"></script>
+		<script>
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					paramName: "",
+					isShowError: false,
+					isGlobaErrorShow: false
+				},
+				methods:{
+					add: function() {
+						if(this.paramName == '' || this.paramName ==null) {
+							this.isShowError = true;
+							return;
+						} else if(this.paramName.length > 5) {
+							this.isShowError = true;
+							return;
+						}
+						
+						axios({
+							headers: {'content-type': 'application/x-www-form-urlencoded'},
+							method: "post",
+							url: "http://localhost:8888/simpleweb/user/add",
+							data : "name=" + this.paramName
+						}).then((res) => {
+							console.log(res.data);
+							if(res.data.res) {
+								location.href = "querydemo.html";
+							} else {
+								this.isGlobaErrorShow = true;
+							}
+						}).catch((error )=> {
+							console.log(error);
+						});
+					}
+				}
+			});
+		</script>
+	</body>
+</html>

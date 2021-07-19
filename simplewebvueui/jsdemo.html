@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>jsdemo</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			console.log("hello world");
+			
+			//弱类型语言
+			var num = 10;
+			num = 10.1;
+			var name = "abc";
+			var bl = true;
+			
+			//日期例子
+			var dt = new Date();
+			dt.setFullYear(2020,6,15);
+			console.log(dt.toLocaleDateString());
+			
+			//user
+			var user = {
+				id: "001",
+				name: "a",
+				display: function(split) {
+					return this.id + split + this.name;
+				}
+			};
+			console.log(user.id + ":" + user.name);
+			console.log(user.display(":"));
+			
+			user.age = 12;
+			console.log(user.age);
+			
+			//数组例子
+			var array = [];
+			for(var index=0; index<5; index++) {
+				var user = {
+					id: index,
+					name: "abc" + index
+				}
+				array.push(user);
+			}
+			
+			for(var index=0; index<5; index++) {
+				console.log(array[index].id + ":" + array[index].name);
+			}
+			
+			
+			
+		</script>
+	</body>
+</html>
