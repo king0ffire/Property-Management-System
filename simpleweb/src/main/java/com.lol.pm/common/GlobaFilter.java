@@ -1,4 +1,4 @@
-package com.max.slw.common;
+package com.lol.pm.common;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
