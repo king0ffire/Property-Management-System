@@ -24,10 +24,10 @@ public class PropertyUpdateApi extends HttpServlet {
         doHttp(req, resp);
     }
 
-    // Format is like ./person/update?name=xxx&to=XXX
+    // Format is like ./house/update?new=xxx&houseproperty_id=XXX
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) {
         String updated_landlord_id = req.getParameter("new");
-        String house_id = req.getParameter("house_id");
+        String house_id = req.getParameter("houseproperty_id");
 
         PropertyRun dao = new PropertyRun();
         int res = dao.updateProperty(updated_landlord_id, house_id);

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "PropertyDeleteApi", urlPatterns = "/property/delete")
+@WebServlet(name = "PropertyDeleteApi", urlPatterns = "/house/delete")
 public class PropertyDeleteApi extends HttpServlet {
 
     @Override
@@ -20,11 +20,11 @@ public class PropertyDeleteApi extends HttpServlet {
     }
 
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) {
-        String name = req.getParameter("name");
+        String houseproperty_id = req.getParameter("houseproperty_id");
 
 
         PropertyRun dao = new PropertyRun();
-        int res = dao.deleteProperty(name);
+        int res = dao.deleteProperty(houseproperty_id);
         String json = JSONUtil.toJsonStr("Deleted Successfully: " + res);
 
 

@@ -16,18 +16,18 @@ import java.sql.Date;
 @WebServlet(name = "PropertyAddApi", urlPatterns = "/house/add")
 public class PropertyAddApi extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+
         doHttp(req, resp);
     }
 
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) {
-        String name = req.getParameter("name");
         int block_id = Integer.parseInt(req.getParameter("build_id"));
         int room_no = Integer.parseInt(req.getParameter("house_id"));
         Date check_in_date = Date.valueOf(req.getParameter("check_in_date"));
         String unit_type = req.getParameter("house_type");
         int area = Integer.parseInt(req.getParameter("house_area"));
-
+        String landlord_id = req.getParameter("owner_id");
 
 
         PropertyRun dao = new PropertyRun();
@@ -37,6 +37,7 @@ public class PropertyAddApi extends HttpServlet {
         property.setCheck_in_date(check_in_date);
         property.setUnit_type(unit_type);
         property.setArea(area);
+        property.setLandlord_id(landlord_id);
         int res = dao.insertProperty(property);
         String json = JSONUtil.toJsonStr("Inserted Successfully: " + res);
 
