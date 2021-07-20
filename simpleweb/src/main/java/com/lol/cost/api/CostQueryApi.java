@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "CostQueryApi", urlPatterns = "/com/lol/cost/query")
+@WebServlet(name = "CostQueryApi", urlPatterns = "/cost/query")
 public class CostQueryApi extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

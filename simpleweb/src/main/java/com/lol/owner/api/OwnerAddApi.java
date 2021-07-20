@@ -1,8 +1,8 @@
-package com.lol.cost.api;
+package com.lol.owner.api;
 
 import cn.hutool.json.JSONUtil;
-import com.lol.cost.dao.Cost;
-import com.lol.cost.dao.CostDao;
+import com.lol.owner.dao.Owner;
+import com.lol.owner.dao.OwnerDao;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "CostUpdateApi", urlPatterns = "/cost/update")
-public class CostUpdateApi extends HttpServlet {
+@WebServlet(name = "OwnerAddApi", urlPatterns = "/owner/add")
+public class OwnerAddApi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doHttp(req, resp);
@@ -25,17 +25,20 @@ public class CostUpdateApi extends HttpServlet {
     }
 
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        String cost_total_str = req.getParameter("cost_total");
-        String cost_id = req.getParameter("cost_id");
-        double cost_total = Double.parseDouble(cost_total_str);
+        String owner_name = req.getParameter("owner_name");
+        String owner_gender = req.getParameter("owner_gender");
+        String owner_hometown = req.getParameter("owner_hometown");
+        String owner_phone = req.getParameter("owner_phone");
 
-        CostDao costDao = new CostDao();
-        Cost cost = new Cost();
-        cost.setCost_total(cost_total);
-        cost.setCost_id(cost_id);
-        int res = costDao.update(cost);
+        OwnerDao ownerDao = new OwnerDao();
+        Owner owner = new Owner();
+        owner.setOwner_name(owner_name);
+        owner.setOwner_gender(owner_gender);
+        owner.setOwner_hometown(owner_hometown);
+        owner.setOwner_phone(owner_phone);
+        int res = ownerDao.insert(owner);
 
-        String flag = "更新成功：";
+        String flag = "插入成功：";
         String json = JSONUtil.toJsonStr(flag + res);
 
         resp.setContentType("application/json;charset=utf-8");

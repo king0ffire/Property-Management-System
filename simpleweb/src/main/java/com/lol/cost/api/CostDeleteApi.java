@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "CostDeleteApi", urlPatterns = "/com/lol/cost/delete")
+@WebServlet(name = "CostDeleteApi", urlPatterns = "/cost/delete")
 public class CostDeleteApi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
