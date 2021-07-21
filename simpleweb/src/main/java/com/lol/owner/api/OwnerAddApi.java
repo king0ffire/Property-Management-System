@@ -30,10 +30,15 @@ public class OwnerAddApi extends HttpServlet {
         String owner_hometown = req.getParameter("owner_hometown");
         String owner_phone = req.getParameter("owner_phone");
 
+        int gender = Integer.parseInt(owner_gender);
         OwnerDao ownerDao = new OwnerDao();
         Owner owner = new Owner();
         owner.setOwner_name(owner_name);
-        owner.setOwner_gender(owner_gender);
+        if(gender == 1) {
+            owner.setOwner_gender("男");
+        } else {
+            owner.setOwner_gender("女");
+        }
         owner.setOwner_hometown(owner_hometown);
         owner.setOwner_phone(owner_phone);
         int res = ownerDao.insert(owner);

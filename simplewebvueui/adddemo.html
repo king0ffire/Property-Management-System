@@ -58,7 +58,7 @@
 						axios({
 							headers: {'content-type': 'application/x-www-form-urlencoded'},
 							method: "post",
-							url: "http://localhost:8888/simpleweb/user/add",
+							url: "http://localhost:8888/simpleweb/useradd",
 							data : "name=" + this.paramName
 						}).then((res) => {
 							console.log(res.data);
