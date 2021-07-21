@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>增加用户</title>
+		<title>产生费用</title>
 	</head>
 	<body>
 		<div id="app">
@@ -10,7 +10,29 @@
 				<tbody>
 					<tr>
 						<th style="width: 70px;">
-							<label>用户名*</label>
+							<label>费用类型*</label>
+						</th>
+						<td style="width: 200px;">
+							<input type="text" v-model="paramName" />
+						</td>
+						<td>
+							<span v-if="isShowError" style="color: red;">请输入5个字符</span>
+						</td>
+					</tr>
+					<tr>
+						<th style="width: 70px;">
+							<label>产生时间*</label>
+						</th>
+						<td style="width: 200px;">
+							<input type="text" v-model="paramName" />
+						</td>
+						<td>
+							<span v-if="isShowError" style="color: red;">请输入5个字符</span>
+						</td>
+					</tr>
+					<tr>
+						<th style="width: 70px;">
+							<label>费用数额*</label>
 						</th>
 						<td style="width: 200px;">
 							<input type="text" v-model="paramName" />
@@ -58,7 +80,7 @@
 						axios({
 							headers: {'content-type': 'application/x-www-form-urlencoded'},
 							method: "post",
-							url: "http://localhost:8888/simpleweb/pay/add",
+							url: "http://localhost:8888/simpleweb/cost/add",
 							data : "name=" + this.paramName
 						}).then((res) => {
 							console.log(res.data);
