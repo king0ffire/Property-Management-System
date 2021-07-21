@@ -53,6 +53,16 @@
 }
 
 .u-section-1 .u-form-group-3 {
+  margin-left: 0;
+}
+
+.u-section-1 .u-label-3 {
+  letter-spacing: 0px;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.u-section-1 .u-form-group-4 {
   width: 100%;
 }
 
@@ -68,6 +78,10 @@
   }
 
   .u-section-1 .u-form-group-2 {
+    width: 100%;
+  }
+
+  .u-section-1 .u-form-group-3 {
     width: 100%;
   }
 }
