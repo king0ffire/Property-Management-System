@@ -14,10 +14,12 @@ public class Jdbc {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://127.0.0.1:3306/propertymanagement?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true";
+            String url = "jdbc:mysql://127.0.0.1:3306/propertymanagement?useUnicode=true&characterEncoding=UTF-8" +
+                    "&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true";
             connection = DriverManager.getConnection(url, "root", "123456");
 
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO build VALUES(?,?,?,?,?,?,?)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO build VALUES(?,?,?,?,?,?," +
+                    "?)");
 
             preparedStatement.setInt(1, build.getBuild_id());
             preparedStatement.setString(2, build.getBuild_name());
@@ -43,8 +45,8 @@ public class Jdbc {
 
     @Test
     public void test() {
-        Date date=new Date(System.currentTimeMillis());
-        Build build=new Build(0,null,-1,-1,null,100,null);
+        Date date = new Date(System.currentTimeMillis());
+        Build build = new Build(0, null, -1, -1, null, 100, null);
         deleteBuild(build);
     }
 
@@ -60,7 +62,6 @@ public class Jdbc {
             connection = DriverManager.getConnection(url, "root", "123456");
 
 
-
             //preparedStatement.setString(1, build.getBuild_id());
             //preparedStatement.setString(2, build.getBuild_name());
             //preparedStatement.setInt(3, build.getBuild_floornum());
@@ -68,30 +69,29 @@ public class Jdbc {
             //preparedStatement.setDate(5, build.getBuild_time());
             //preparedStatement.setInt(6,build.getBuild_accept());
             //preparedStatement.setString(7,build.getBuild_layout());
-            PreparedStatement preparedStatement=null;
+            PreparedStatement preparedStatement = null;
             //手动动态删除，每个if都有connection操作是因为where里面的“表属性”如果使用问好进行动态，会有单引号无法解决
             if (build.getBuild_name() != null) {
                 preparedStatement = connection.prepareStatement("DELETE FROM build WHERE build_name LIKE ?");
                 preparedStatement.setString(1, "%" + build.getBuild_name() + "%");
             } else if (build.getBuild_floornum() != -1) {
                 preparedStatement = connection.prepareStatement("DELETE FROM build WHERE build_floornum LIKE ?");
-                preparedStatement.setString(1, "%"+build.getBuild_floornum()+"%");
+                preparedStatement.setString(1, "%" + build.getBuild_floornum() + "%");
             } else if (build.getBuild_housenum() != -1) {
                 preparedStatement = connection.prepareStatement("DELETE FROM build WHERE build_housenum LIKE ?");
-                preparedStatement.setString(1, "%"+build.getBuild_housenum()+"%");
+                preparedStatement.setString(1, "%" + build.getBuild_housenum() + "%");
             } else if (build.getBuild_time() != null) {
                 preparedStatement = connection.prepareStatement("DELETE FROM build WHERE build_time LIKE ?");
-                preparedStatement.setString(1, "%"+build.getBuild_time()+"%");
+                preparedStatement.setString(1, "%" + build.getBuild_time() + "%");
             } else if (build.getBuild_accept() != -1) {
                 preparedStatement = connection.prepareStatement("DELETE FROM build WHERE build_accept LIKE ?");
-                preparedStatement.setString(1, "%"+build.getBuild_accept()+"%");
-            } else if(build.getBuild_layout()!=null){
+                preparedStatement.setString(1, "%" + build.getBuild_accept() + "%");
+            } else if (build.getBuild_layout() != null) {
                 preparedStatement = connection.prepareStatement("DELETE FROM build WHERE build_layout LIKE ?");
-                preparedStatement.setString(1,"%"+build.getBuild_layout()+"%");
+                preparedStatement.setString(1, "%" + build.getBuild_layout() + "%");
             }
-
+            System.out.println(preparedStatement.toString());
             i = preparedStatement.executeUpdate();
-            System.out.println("32132132");
             System.out.println("删除成功：" + i);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
@@ -107,9 +107,11 @@ public class Jdbc {
 
 
     @Test
-    public int updateBuild(Build build1,Build build2) {        //build1是目标数据过滤器，build2是目标数据将要改成什么，在检测到build1的过滤属性后将对应直接用build2的属性
+    public int updateBuild(Build build1, Build build2) {        //build1是目标数据过滤器，build2是目标数据将要改成什么，在检测到build1
+        // 的过滤属性后将对应直接用build2的属性
         Connection connection = null;
         int i = 0;
+        String sql="UPDATE build SET ";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -118,32 +120,84 @@ public class Jdbc {
             connection = DriverManager.getConnection(url, "root", "123456");
 
             PreparedStatement preparedStatement = null;
-            //手动动态
-            if (build1.getBuild_name() != null) {
-                preparedStatement = connection.prepareStatement("UPDATE build SET build_name=? WHERE build_name LIKE ?");
+
+
+            if (build2.getBuild_name() != null) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_name=? WHERE build_name LIKE " +
+                        "?");
                 preparedStatement.setString(2, "%" + build1.getBuild_name() + "%");
-                preparedStatement.setString(1, build2.getBuild_name());
-            } else if (build1.getBuild_floornum() != -1) {
-                preparedStatement = connection.prepareStatement("UPDATE build SET build_floornum=? WHERE build_floornum LIKE ?");
-                preparedStatement.setString(2, "%"+build1.getBuild_floornum()+"%");
-                preparedStatement.setInt(1, build2.getBuild_floornum());
-            } else if (build1.getBuild_housenum() != -1) {
-                preparedStatement = connection.prepareStatement("UPDATE build SET build_housenum=? WHERE build_housenum LIKE ?");
-                preparedStatement.setString(2, "%"+build1.getBuild_housenum()+"%");
-                preparedStatement.setInt(1, build2.getBuild_housenum());
-            } else if (build1.getBuild_time() != null) {
-                preparedStatement = connection.prepareStatement("UPDATE build SET build_time=? WHERE build_time LIKE ?");
-                preparedStatement.setString(2, "%"+build1.getBuild_time()+"%");
-                preparedStatement.setString(1, build2.getBuild_time().toString());
-            } else if (build1.getBuild_accept() != -1) {
-                preparedStatement = connection.prepareStatement("UPDATE build SET build_accept=? WHERE build_accept LIKE ?");
-                preparedStatement.setString(2, "%"+build1.getBuild_accept()+"%");
-                preparedStatement.setInt(1, build2.getBuild_accept());
-            } else if(build1.getBuild_layout()!=null){
-                preparedStatement = connection.prepareStatement("UPDATE build SET build_accept=? WHERE build_accept LIKE ?");
-                preparedStatement.setString(2,"%"+build1.getBuild_layout()+"%");
-                preparedStatement.setString(1,build2.getBuild_layout());
+                preparedStatement.setString(1, build2.getBuild_name());*/
+                sql+="build_name = "+build2.getBuild_name();
+            } else if (build2.getBuild_floornum() != -1) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_floornum=? WHERE " +
+                        "build_floornum LIKE ?");
+                preparedStatement.setString(2, "%" + build1.getBuild_floornum() + "%");
+                preparedStatement.setInt(1, build2.getBuild_floornum());*/
+                sql+="build_floornum = "+build2.getBuild_floornum();
+            } else if (build2.getBuild_housenum() != -1) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_housenum=? WHERE " +
+                        "build_housenum LIKE ?");
+                preparedStatement.setString(2, "%" + build1.getBuild_housenum() + "%");
+                preparedStatement.setInt(1, build2.getBuild_housenum());*/
+                sql+="build_housenum = "+build2.getBuild_housenum();
+            } else if (build2.getBuild_time() != null) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_time=? WHERE build_time LIKE " +
+                        "?");
+                preparedStatement.setString(2, "%" + build1.getBuild_time() + "%");
+                preparedStatement.setString(1, build2.getBuild_time().toString());*/
+                sql+="build_time = "+build2.getBuild_time();
+            } else if (build2.getBuild_accept() != -1) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_accept=? WHERE build_accept " +
+                        "LIKE ?");
+                preparedStatement.setString(2, "%" + build1.getBuild_accept() + "%");
+                preparedStatement.setInt(1, build2.getBuild_accept());*/
+                sql+="build_accept = "+build2.getBuild_accept();
+            } else if (build2.getBuild_layout() != null) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_accept=? WHERE build_accept " +
+                        "LIKE ?");
+                preparedStatement.setString(2, "%" + build1.getBuild_layout() + "%");
+                preparedStatement.setString(1, build2.getBuild_layout());*/
+                sql+="build_layout = "+build2.getBuild_layout();
             }
+
+            if (build1.getBuild_name() != null) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_name=? WHERE build_name LIKE " +
+                        "?");
+                preparedStatement.setString(2, "%" + build1.getBuild_name() + "%");
+                preparedStatement.setString(1, build2.getBuild_name());*/
+                sql+=" WHERE build_name LIKE '%"+build1.getBuild_name()+"%'";
+            } else if (build1.getBuild_floornum() != -1) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_floornum=? WHERE " +
+                        "build_floornum LIKE ?");
+                preparedStatement.setString(2, "%" + build1.getBuild_floornum() + "%");
+                preparedStatement.setInt(1, build2.getBuild_floornum());*/
+                sql+=" WHERE build_floornum LIKE '%"+build1.getBuild_floornum()+"%'";
+            } else if (build1.getBuild_housenum() != -1) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_housenum=? WHERE " +
+                        "build_housenum LIKE ?");
+                preparedStatement.setString(2, "%" + build1.getBuild_housenum() + "%");
+                preparedStatement.setInt(1, build2.getBuild_housenum());*/
+                sql+=" WHERE build_housenum LIKE '%"+build1.getBuild_housenum()+"%'";
+            } else if (build1.getBuild_time() != null) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_time=? WHERE build_time LIKE " +
+                        "?");
+                preparedStatement.setString(2, "%" + build1.getBuild_time() + "%");
+                preparedStatement.setString(1, build2.getBuild_time().toString());*/
+                sql+=" WHERE build_time LIKE '%"+build1.getBuild_time()+"%'";
+            } else if (build1.getBuild_accept() != -1) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_accept=? WHERE build_accept " +
+                        "LIKE ?");
+                preparedStatement.setString(2, "%" + build1.getBuild_accept() + "%");
+                preparedStatement.setInt(1, build2.getBuild_accept());*/
+                sql+="WHERE build_accept LIKE '%"+build1.getBuild_accept()+"%'";
+            } else if (build1.getBuild_layout() != null) {
+                /*preparedStatement = connection.prepareStatement("UPDATE build SET build_accept=? WHERE build_accept " +
+                        "LIKE ?");
+                preparedStatement.setString(2, "%" + build1.getBuild_layout() + "%");
+                preparedStatement.setString(1, build2.getBuild_layout());*/
+                sql+=" WHERE build_layout LIKE '%"+build1.getBuild_layout()+"%'";
+            }
+            preparedStatement=connection.prepareStatement(sql);
             System.out.println(preparedStatement.toString());
             i = preparedStatement.executeUpdate();
             System.out.println("update success：" + i);
@@ -162,30 +216,38 @@ public class Jdbc {
     @Test
     public List<Build> queryBuild(Build build) {        //开闭查询
         Connection connection = null;
-        List<Build> list =new ArrayList<>();
+        List<Build> list = new ArrayList<>();
+        String sql ="SELECT * FROM build WHERE 1=1 ";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:mysql://127.0.0.1:3306/propertymanagement?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true";
+            String url = "jdbc:mysql://127.0.0.1:3306/propertymanagement?useUnicode=true&characterEncoding=UTF-8" +
+                    "&allowMultiQueries=true&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true";
             connection = DriverManager.getConnection(url, "root", "123456");
 
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM build WHERE 1=1 AND build_name LIKE ?");
-
+            PreparedStatement preparedStatement = null;
 
 
             if (build.getBuild_name() != null) {
-                preparedStatement.setString(1, build.getBuild_name());
+                //preparedStatement.setString(1, build.getBuild_name());
+                sql+=" AND build_name LIKE '%"+build.getBuild_name()+"%'";
             } else if (build.getBuild_floornum() != -1) {
-                preparedStatement.setInt(1, build.getBuild_floornum());
+                //preparedStatement.setInt(1, build.getBuild_floornum());
+                sql+=" AND build_floornum LIKE '%"+ build.getBuild_floornum()+"%'";
             } else if (build.getBuild_housenum() != -1) {
-                preparedStatement.setInt(1, build.getBuild_housenum());
+                //preparedStatement.setInt(1, build.getBuild_housenum());
+                sql+=" AND build_housenum LIKE '%"+build.getBuild_floornum()+"%'";
             } else if (build.getBuild_time() != null) {
-                preparedStatement.setString(1, build.getBuild_time().toString());
+                //preparedStatement.setString(1, build.getBuild_time().toString());
+                sql+=" AND build_time LIKE '%"+build.getBuild_time()+"%'";
             } else if (build.getBuild_accept() != -1) {
-                preparedStatement.setInt(1, build.getBuild_accept());
-            } else if(build.getBuild_layout()!=null){
-                preparedStatement.setString(1,build.getBuild_layout());
+                //preparedStatement.setInt(1, build.getBuild_accept());
+                sql+=" AND build_accept LIKE '%"+build.getBuild_accept()+"%'";
+            } else if (build.getBuild_layout() != null) {
+                //preparedStatement.setString(1, build.getBuild_layout());
+                sql+=" AND build_layout LIKE '%"+ build.getBuild_layout()+"%'";
             }
+            preparedStatement = connection.prepareStatement(sql);
             /*preparedStatement.setInt(1, build.getBuild_id());
             preparedStatement.setString(2, build.getBuild_name());
             preparedStatement.setInt(3, build.getBuild_floornum());
@@ -195,16 +257,16 @@ public class Jdbc {
             preparedStatement.setString(7, build.getBuild_layout());*/
             System.out.println(preparedStatement.toString());
 
-            ResultSet rs =preparedStatement.executeQuery();
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
                 String name = rs.getString(2);
                 int floornum = rs.getInt(3);
-                int housenum=rs.getInt(4);
+                int housenum = rs.getInt(4);
                 Date date = rs.getDate(5);
-                int accept=rs.getInt(6);
-                String layout=rs.getString(7);
-                Build tbuild=new Build(id,name,floornum,housenum,date,accept,layout);
+                int accept = rs.getInt(6);
+                String layout = rs.getString(7);
+                Build tbuild = new Build(id, name, floornum, housenum, date, accept, layout);
                 list.add(tbuild);
             }
         } catch (ClassNotFoundException | SQLException e) {

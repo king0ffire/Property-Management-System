@@ -30,7 +30,7 @@ public class builddelete extends HttpServlet {
 
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int res = 0;
-        boolean bl = true;
+        boolean bl = false;
         String json = null;
         String name = null;
         int floornum = -1;
@@ -39,50 +39,54 @@ public class builddelete extends HttpServlet {
         int accept = -1;
         String layout = null;
         name = req.getParameter("name");
-        if(req.getParameter("floornum")!=null) {
-            try{
+        if(name!=null)
+        {
+            bl=true;
+        }
+        if (req.getParameter("floornum") != null) {
+            try {
                 floornum = Integer.valueOf(req.getParameter("floornum"));
-            }catch (Exception e)
-            {
+                bl=true;
+            } catch (Exception e) {
                 System.out.println("something wrong with floornum");
-                bl=false;
             }
         }
-        if(req.getParameter("housenum")!=null) {
-            try{
+        if (req.getParameter("housenum") != null) {
+            try {
                 housenum = Integer.valueOf(req.getParameter("housenum"));
-            }catch (Exception e)
-            {
+                bl=true;
+            } catch (Exception e) {
                 System.out.println("something wrong with housenum");
-                bl=false;
             }
         }
-        if(req.getParameter("data")!=null) {
+        if (req.getParameter("data") != null) {
             try {
                 date = Date.valueOf(req.getParameter("date"));
+                bl=true;
             } catch (Exception e) {
                 System.out.println("something wrong with date");
-                bl = false;
             }
         }
-        if(req.getParameter("accept")!=null) {
+        if (req.getParameter("accept") != null) {
             try {
                 accept = Integer.valueOf(req.getParameter("accept"));
+                bl=true;
             } catch (Exception e) {
                 System.out.println("something wrong with accept");
-                bl = false;
             }
         }
         layout = req.getParameter("layout");
+        if(layout!=null)bl=true;
 
-        if(bl!=false) {
+
+        if (bl != false) {
             Jdbc jdbc = new Jdbc();
             Build build = new Build(0, name, floornum,
                     housenum, date, accept, layout);
-            res=jdbc.deleteBuild(build);
-            json = JSONUtil.toJsonStr("delete suceess:"+res);
-        }else {
-            json = JSONUtil.toJsonStr("something wrong with your input");
+            res = jdbc.deleteBuild(build);
+            json = JSONUtil.toJsonStr("delete suceess:" + res);
+        } else {
+            json = JSONUtil.toJsonStr("nothing can be deleted");
         }
         resp.setContentType("application/json;charset=utf-8");
         PrintWriter pw = resp.getWriter();

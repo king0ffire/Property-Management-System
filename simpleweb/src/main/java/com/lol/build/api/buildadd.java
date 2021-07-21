@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 
-@WebServlet(name="buildadd",urlPatterns = "/build/add")
+@WebServlet(name = "buildadd", urlPatterns = "/build/add")
 public class buildadd extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        this.doHttp(req,resp);
+        this.doHttp(req, resp);
     }
 
     @Override
@@ -28,33 +28,30 @@ public class buildadd extends HttpServlet {
         this.doHttp(req, resp);
     }
 
-    private  void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        int res=0;
+    private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        int res = 0;
         boolean bl = true;
         String json = null;
-        try{
-            String name= req.getParameter("name");
-            int floornum=Integer.valueOf(req.getParameter("floornum"));
-            int housenum=Integer.valueOf(req.getParameter("housenum"));
-            Date date=Date.valueOf(req.getParameter("date"));
-            int accept=Integer.valueOf(req.getParameter("accept"));
-            String layout=req.getParameter("layout");
+        try {
+            String name = req.getParameter("name");
+            int floornum = Integer.valueOf(req.getParameter("floornum"));
+            int housenum = Integer.valueOf(req.getParameter("housenum"));
+            Date date = Date.valueOf(req.getParameter("date"));
+            int accept = Integer.valueOf(req.getParameter("accept"));
+            String layout = req.getParameter("layout");
 
-            Jdbc jdbc=new Jdbc();
-            Build build=new Build(0,name,floornum,
-                    housenum,date,accept,layout);
-            res= jdbc.addBuild(build);
-        }catch (Exception e)
-        {
+            Jdbc jdbc = new Jdbc();
+            Build build = new Build(0, name, floornum,
+                    housenum, date, accept, layout);
+            res = jdbc.addBuild(build);
+        } catch (Exception e) {
             System.out.println("catch error!");
-            bl=false;
+            bl = false;
         }
-        if(bl)
-        {
-            json= JSONUtil.toJsonStr("add suceess");
-        }else
-        {
-            json= JSONUtil.toJsonStr("something wrong with your input");
+        if (bl) {
+            json = JSONUtil.toJsonStr("add suceess");
+        } else {
+            json = JSONUtil.toJsonStr("something wrong with your input");
         }
 
         resp.setContentType("application/json;charset=utf-8");

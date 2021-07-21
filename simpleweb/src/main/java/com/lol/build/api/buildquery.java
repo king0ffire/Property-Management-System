@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.List;
 
-@WebServlet(name="buildquery",urlPatterns = "/build/query")
+@WebServlet(name = "buildquery", urlPatterns = "/build/query")
 public class buildquery extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +28,7 @@ public class buildquery extends HttpServlet {
 
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int res = 0;
-        boolean bl = true;
+        boolean bl = false;
         String json = null;
         String name = null;
         int floornum = -1;
@@ -36,50 +36,57 @@ public class buildquery extends HttpServlet {
         Date date = null;
         int accept = -1;
         String layout = null;
-        name=req.getParameter("name");
-        if(req.getParameter("floornum")!=null) {
-            try{
+        name = req.getParameter("name");
+        if(name!=null)
+        {
+            bl=true;
+        }
+        if (req.getParameter("floornum") != null) {
+            try {
                 floornum = Integer.valueOf(req.getParameter("floornum"));
-            }catch (Exception e)
-            {
+                bl = true;
+            } catch (Exception e) {
                 System.out.println("something wrong with floornum");
-                bl=false;
+
             }
         }
-        if(req.getParameter("housenum")!=null) {
-            try{
+        if (req.getParameter("housenum") != null) {
+            try {
                 housenum = Integer.valueOf(req.getParameter("housenum"));
-            }catch (Exception e)
-            {
+                bl=true;
+            } catch (Exception e) {
                 System.out.println("something wrong with housenum");
-                bl=false;
             }
         }
-        if(req.getParameter("data")!=null) {
+        if (req.getParameter("data") != null) {
             try {
                 date = Date.valueOf(req.getParameter("date"));
+                bl=true;
             } catch (Exception e) {
                 System.out.println("something wrong with date");
-                bl = false;
             }
         }
-        if(req.getParameter("accept")!=null) {
+        if (req.getParameter("accept") != null) {
             try {
                 accept = Integer.valueOf(req.getParameter("accept"));
+                bl=true;
             } catch (Exception e) {
                 System.out.println("something wrong with accept");
-                bl = false;
             }
         }
         layout = req.getParameter("layout");
+        if(layout!=null)
+        {
+            bl=true;
+        }
 
-        if(bl!=false) {
+        if (bl != false) {
             Jdbc jdbc = new Jdbc();
             Build build = new Build(0, name, floornum,
                     housenum, date, accept, layout);
-            List<Build> list= jdbc.queryBuild(build);
+            List<Build> list = jdbc.queryBuild(build);
             json = JSONUtil.toJsonStr(list);
-        }else {
+        } else {
             json = JSONUtil.toJsonStr("something wrong with your input");
         }
         resp.setContentType("application/json;charset=utf-8");
