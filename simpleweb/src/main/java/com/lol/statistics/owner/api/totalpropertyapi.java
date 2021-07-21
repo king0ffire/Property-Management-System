@@ -38,7 +38,7 @@ public class totalpropertyapi extends HttpServlet {
         }
         Property tot = new Property();
         Map<String, Object> map = tot.total(id);
-        json=JSONUtil.toJsonStr(map);
+        json = JSONUtil.toJsonStr(map);
 
         resp.setContentType("application/json;charset=utf-8");
         PrintWriter pw = resp.getWriter();

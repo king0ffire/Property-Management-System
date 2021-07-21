@@ -30,7 +30,8 @@ public class buildupdate extends HttpServlet {
 
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int res = 0;
-        boolean bl = true;
+        boolean bl1 = true;
+        boolean bl2 = true;
         String json = null;
         String sname = null;
         int sfloornum = -1;
@@ -45,56 +46,94 @@ public class buildupdate extends HttpServlet {
         int daccept = -1;
         String dlayout = null;
         sname = req.getParameter("sname");
-        if(req.getParameter("sfloornum")!=null) {
-            try{
+        if(sname!=null)
+        {
+            bl1=true;
+        }
+        if (req.getParameter("sfloornum") != null) {
+            try {
                 sfloornum = Integer.valueOf(req.getParameter("sfloornum"));
-                dfloornum = Integer.valueOf(req.getParameter("dfloornum"));
-            }catch (Exception e)
-            {
-                System.out.println("something wrong with floornum");
-                bl=false;
+                bl1=true;
+            } catch (Exception e) {
+                System.out.println("something wrong with sfloornum");
             }
         }
-        if(req.getParameter("shousenum")!=null) {
-            try{
+        if (req.getParameter("shousenum") != null) {
+            try {
                 shousenum = Integer.valueOf(req.getParameter("shousenum"));
-                dhousenum = Integer.valueOf(req.getParameter("dhousenum"));
-            }catch (Exception e)
-            {
-                System.out.println("something wrong with housenum");
-                bl=false;
+                bl1=true;
+            } catch (Exception e) {
+                System.out.println("something wrong with shousenum");
             }
         }
-        if(req.getParameter("sdate")!=null) {
+        if (req.getParameter("sdate") != null) {
             try {
                 sdate = Date.valueOf(req.getParameter("sdate"));
-                ddate = Date.valueOf(req.getParameter("ddate"));
+                bl1=true;
             } catch (Exception e) {
-                System.out.println("something wrong with date");
-                bl = false;
+                System.out.println("something wrong with sdate");
             }
         }
-        if(req.getParameter("saccept")!=null) {
+        if (req.getParameter("saccept") != null) {
             try {
                 saccept = Integer.valueOf(req.getParameter("saccept"));
-                daccept = Integer.valueOf(req.getParameter("daccept"));
+                bl1=true;
             } catch (Exception e) {
-                System.out.println("something wrong with accept");
-                bl = false;
+                System.out.println("something wrong with saccept");
             }
         }
         slayout = req.getParameter("slayout");
-        dlayout = req.getParameter("dlayout");
+        if(slayout!=null)bl1=true;
 
-        if(bl!=false) {
+        dname = req.getParameter("dname");
+        if(dname!=null)
+        {
+            bl2=true;
+        }
+        if (req.getParameter("dfloornum") != null) {
+            try {
+                dfloornum = Integer.valueOf(req.getParameter("dfloornum"));
+                bl2=true;
+            } catch (Exception e) {
+                System.out.println("something wrong with dfloornum");
+            }
+        }
+        if (req.getParameter("dhousenum") != null) {
+            try {
+                dhousenum = Integer.valueOf(req.getParameter("dhousenum"));
+                bl2=true;
+            } catch (Exception e) {
+                System.out.println("something wrong with dhousenum");
+            }
+        }
+        if (req.getParameter("ddata") != null) {
+            try {
+                ddate = Date.valueOf(req.getParameter("ddate"));
+                bl2=true;
+            } catch (Exception e) {
+                System.out.println("something wrong with ddate");
+            }
+        }
+        if (req.getParameter("daccept") != null) {
+            try {
+                daccept = Integer.valueOf(req.getParameter("daccept"));
+                bl2=true;
+            } catch (Exception e) {
+                System.out.println("something wrong with daccept");
+            }
+        }
+        dlayout = req.getParameter("dlayout");
+        if(dlayout!=null)bl2=true;
+
+        if (bl1==true&&bl2==true) {
             Jdbc jdbc = new Jdbc();
             Build build1 = new Build(0, sname, sfloornum,
                     shousenum, sdate, saccept, slayout);
             Build build2 = new Build(0, dname, dfloornum,
                     dhousenum, ddate, daccept, dlayout);
-            res=jdbc.updateBuild(build1,build2);
-            json = JSONUtil.toJsonStr("update suceess:"+res);
-        }else {
+            res = jdbc.updateBuild(build1, build2);
+            json = JSONUtil.toJsonStr("update suceess:" + res);
+        } else {
             json = JSONUtil.toJsonStr("something wrong with your input");
         }
         resp.setContentType("application/json;charset=utf-8");

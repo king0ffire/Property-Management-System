@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet (name = "ownedHouse",urlPatterns = "/statistics/ownedhouse")
+@WebServlet(name = "ownedHouse", urlPatterns = "/statistics/ownedhouse")
 public class ownedHouse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -31,30 +31,32 @@ public class ownedHouse extends HttpServlet {
         int res = 0;
         boolean bl = true;
         String json = null;
-        List<OH> oh=null;
-        String owner_id=null;
-        List<Ownedhouse> ownedhouseList=new ArrayList<>();
+        List<OH> oh = null;
+        String owner_id = null;
+        List<Ownedhouse> ownedhouseList = new ArrayList<>();
         try {
             owner_id = req.getParameter("id");
             Property property = new Property();
-            oh=property.ownerHouse();
+            oh = property.ownerHouse();
         } catch (Exception e) {
             System.out.println("catch error!");
             bl = false;
         }
-        System.out.println("1! "+oh);
+        System.out.println("1! " + oh);
         if (bl) {
-            for(int i =0;i<oh.size();i++)
-            {
-                Ownedhouse ownedhouse=null;
-                if(owner_id!=null)
-                {
-                    if(owner_id==oh.get(i).getOwner_id()) {
-                        ownedhouse = new Ownedhouse(oh.get(i).getOwner_name(),oh.get(i).getBlock_id(),oh.get(i).getRoom_no(),oh.get(i).getCheck_in_date(),oh.get(i).getUnit_type(),oh.get(i).getArea());
+            for (int i = 0; i < oh.size(); i++) {
+                Ownedhouse ownedhouse = null;
+                if (owner_id != null) {
+                    if (owner_id.equals(oh.get(i).getOwner_id())) {
+                        ownedhouse = new Ownedhouse(oh.get(i).getOwner_name(), oh.get(i).getBlock_id(),
+                                oh.get(i).getRoom_no(), oh.get(i).getCheck_in_date(), oh.get(i).getUnit_type(),
+                                oh.get(i).getArea());
                         ownedhouseList.add(ownedhouse);
                     }
-                }else{
-                    ownedhouse = new Ownedhouse(oh.get(i).getOwner_name(),oh.get(i).getBlock_id(),oh.get(i).getRoom_no(),oh.get(i).getCheck_in_date(),oh.get(i).getUnit_type(),oh.get(i).getArea());
+                } else {
+                    ownedhouse = new Ownedhouse(oh.get(i).getOwner_name(), oh.get(i).getBlock_id(),
+                            oh.get(i).getRoom_no(), oh.get(i).getCheck_in_date(), oh.get(i).getUnit_type(),
+                            oh.get(i).getArea());
                     ownedhouseList.add(ownedhouse);
                 }
 
