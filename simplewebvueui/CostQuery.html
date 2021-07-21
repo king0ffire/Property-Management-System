@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>查询</title>
+	</head>
+	<body>
+		<div id="app">
+			<h3>费用信息表</h3>
+			<button @click="gotoadd()">增加</button>
+			<table border="1">
+				<thead>
+					<tr>
+						<th style="width: 100px;">费用序号</th>
+						<th style="width: 100px;">费用类型</th>
+						<th style="width: 100px;">产生时间</th>
+						<th style="width: 100px;">费用总计</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(item, index) in list">
+						<td>{{item.cost_id}}</td>
+						<td>{{item.cost_reason}}</td>
+						<td>{{item.cost_time}}</td>
+						<td>{{item.cost_total}}</td>
+						<td>
+							<button @click="gotoupdate(item.cost_id)">修改</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<span v-if="isshow">暂时没有数据</span>
+		</div>
+		<script src="js/vue.js"></script>
+		<script src="js/axios.js"></script>
+		<script>
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					paramName: "",
+					list: [],
+					isshow: true
+				},
+				methods: {
+					query: function() {
+						console.log(this.paramName);
+						axios({
+							headers: {'content-type': 'application/x-www-form-urlencoded'},
+							method: "post",
+							url: "http://localhost:8888/simpleweb/cost/query",
+							data : "name=" + this.paramName
+						}).then((res) => {
+							console.log(res.data);
+							if(res.data.length > 0) {
+								this.list = res.data;
+								this.isshow = false;
+							} else {
+								this.list = [];
+								this.isshow = true;
+							}
+							
+						}).catch((error )=> {
+							console.log(error);
+						});
+					}
+					,
+					gotoadd: function() {
+						location.href = "CostAdd.html";
+					},
+					gotoupdate: function(id) {
+						location.href = "CostUpdate.html?name=" + cost_id;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
