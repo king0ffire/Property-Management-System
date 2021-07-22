@@ -3,13 +3,13 @@ package com.lol.house.dao;
 import java.sql.Date;
 
 public class Property {
-    private String property_id;
-    private int block_id;
-    private int room_no;
-    private Date check_in_date;
-    private String unit_type;
-    private int area;
-    private String landlord_id;
+    private String property_id; //房产编号
+    private int block_id; //楼号
+    private int room_no; //房号
+    private Date check_in_date;  //入住时间
+    private String unit_type;  //户型
+    private int area;  //面积
+    private String landlord_id; //业主
 
     public String getProperty_id() {
         return property_id;

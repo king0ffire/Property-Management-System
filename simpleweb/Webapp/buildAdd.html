@@ -138,7 +138,7 @@
                                class="u-border-1 u-border-grey-30 u-input u-input-rectangle u-white">
                     </div>
                     <div class="u-align-left u-form-group u-form-submit">
-                        <a @click="add()" href="#" class="u-btn u-btn-submit u-button-style">Submit</a>
+                        <a @click="add()" href="#" class="u-btn u-btn-submit u-button-style">Add</a>
 
                     </div>
                     <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent.</div>
@@ -229,8 +229,6 @@
 							this.isshow1=false;
 							this.isshow2=false;
 							this.isshow3=false;
-							setTimeout("", 10000);
-							console.log("sleeping");
 							location.href="Surveillance.html";
 						}
 					}).catch((error) => {

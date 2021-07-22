@@ -21,6 +21,11 @@ public class PropertyAddApi extends HttpServlet {
         doHttp(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        this.doHttp(req, resp);
+    }
+
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) {
         int block_id = Integer.parseInt(req.getParameter("build_id"));
         int room_no = Integer.parseInt(req.getParameter("house_id"));
@@ -38,8 +43,15 @@ public class PropertyAddApi extends HttpServlet {
         property.setUnit_type(unit_type);
         property.setArea(area);
         property.setLandlord_id(landlord_id);
-        int res = dao.insertProperty(property);
-        String json = JSONUtil.toJsonStr("Inserted Successfully: " + res);
+        int res=dao.insertProperty(property);
+        String json=null;
+        if(res==1)
+        {
+            json = JSONUtil.toJsonStr("Inserted Successfully");
+        }else if(res==0)
+        {
+            json =JSONUtil.toJsonStr("FOREIGN KEY ERROR");//只可能是外键
+        }
 
 
         resp.setContentType("application/json;charset=utf-8");
