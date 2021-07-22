@@ -35,12 +35,14 @@ public class PropertyRun {
 
         String id = UUID.randomUUID().toString();
         try {
-            int res = Db.use().execute("INSERT INTO house VALUES(?, ?, ?, ?, ?, ?, ?)", id, property.getBlock_id(), property.getRoom_no(), property.getCheck_in_date(), property.getUnit_type(), property.getArea(), property.getLandlord_id());
-            return res;
+            int res = Db.use().execute("INSERT INTO house VALUES(?, ?, ?, ?, ?, ?, ?)", id, property.getBlock_id(),
+                    property.getRoom_no(), property.getCheck_in_date(), property.getUnit_type(), property.getArea(),
+                    property.getLandlord_id());
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return 0;
         }
-        return 0;
+        return 1;
     }
 
 
