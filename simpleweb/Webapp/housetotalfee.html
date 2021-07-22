@@ -24,7 +24,8 @@
 						<th style="width: 100px;">面积</th>
 						<th style="width: 100px;">业主</th>
 						<th style="width: 100px;">费用类型</th>
-						<th style="width: 100px;">总和</th>
+						<th style="width: 100px;">费用产生时间</th>
+						<th style="width: 100px;">费用总和</th>
 						<th style="width: 100px;">已支付总和</th>
 						<th style="width: 100px;">支付时间</th>
 						<th style="width: 100px;">结余</th>
@@ -42,6 +43,7 @@
 						<td>{{item.area}}</td>
 						<td>{{item.owner_name}}</td>
 						<td>{{item.cost_reason}}</td>
+						<td>{{item.ctime}}</td>
 						<td>{{item.cost_total}}</td>
 						<td>{{item.pay_money}}元</td>
 						<td>{{item.ptime}}</td>
@@ -81,6 +83,8 @@
 									this.list[i].tindex=i;
 									var tdate = new Date(this.list[i].check_in_date);
 									this.list[i].cdate=tdate.getFullYear()+"-"+(parseInt(tdate.getMonth())+1).toString()+"-"+tdate.getDate();
+									var tctime = new Date(this.list[i].cost_time);
+									this.list[i].ctime=tctime.getFullYear()+"-"+(parseInt(tctime.getMonth())+1).toString()+"-"+tctime.getDate();
 									var ttime = new Date(this.list[i].pay_time);
 									this.list[i].ptime=ttime.getFullYear()+"-"+(parseInt(ttime.getMonth())+1).toString()+"-"+ttime.getDate();
 								}

@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class Fee {
-    private String cost_reason;
-    private double cost_total;
+    private String cost_reason;  //费用类型
+    private double cost_total;  //总和
 
     public Fee(String cost_reason, double cost_total) {
         this.cost_reason = cost_reason;
