@@ -32,13 +32,19 @@ public class buildadd extends HttpServlet {
         int res = 0;
         boolean bl = true;
         String json = null;
+        String name = null;
+        int floornum = -1;
+        int housenum = -1;
+        Date date = null;
+        int accept = -1;
+        String layout = null;
         try {
-            String name = req.getParameter("name");
-            int floornum = Integer.valueOf(req.getParameter("floornum"));
-            int housenum = Integer.valueOf(req.getParameter("housenum"));
-            Date date = Date.valueOf(req.getParameter("date"));
-            int accept = Integer.valueOf(req.getParameter("accept"));
-            String layout = req.getParameter("layout");
+            name = req.getParameter("name");
+            floornum = Integer.valueOf(req.getParameter("floornum"));
+            housenum = Integer.valueOf(req.getParameter("housenum"));
+            date = Date.valueOf(req.getParameter("date"));
+            accept = Integer.valueOf(req.getParameter("accept"));
+            layout = req.getParameter("layout");
 
             Jdbc jdbc = new Jdbc();
             Build build = new Build(0, name, floornum,
@@ -48,11 +54,16 @@ public class buildadd extends HttpServlet {
             System.out.println("catch error!");
             bl = false;
         }
-        if (bl) {
-            json = JSONUtil.toJsonStr("add suceess");
-        } else {
-            json = JSONUtil.toJsonStr("something wrong with your input");
+        if (bl==true) {
+            json = JSONUtil.toJsonStr("add success");
         }
+        else {
+            json = JSONUtil.toJsonStr("input wrong");
+        }
+        if (bl==true&&(floornum <= 0 || housenum <= 0 || accept <= 0)) {
+            json = JSONUtil.toJsonStr("too small");
+        }
+
 
         resp.setContentType("application/json;charset=utf-8");
         PrintWriter pw = resp.getWriter();
