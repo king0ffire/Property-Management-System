@@ -46,15 +46,15 @@ public class ownedHouse extends HttpServlet {
         if (bl) {
             for (int i = 0; i < oh.size(); i++) {
                 Ownedhouse ownedhouse = null;
-                if (owner_id != null) {
+                if (owner_id != null&&owner_id!="") {
                     if (owner_id.equals(oh.get(i).getOwner_id())) {
-                        ownedhouse = new Ownedhouse(oh.get(i).getOwner_name(), oh.get(i).getBlock_id(),
+                        ownedhouse = new Ownedhouse(oh.get(i).getOwner_id(),oh.get(i).getOwner_name(), oh.get(i).getBlock_id(),
                                 oh.get(i).getRoom_no(), oh.get(i).getCheck_in_date(), oh.get(i).getUnit_type(),
                                 oh.get(i).getArea());
                         ownedhouseList.add(ownedhouse);
                     }
                 } else {
-                    ownedhouse = new Ownedhouse(oh.get(i).getOwner_name(), oh.get(i).getBlock_id(),
+                    ownedhouse = new Ownedhouse(oh.get(i).getOwner_id(),oh.get(i).getOwner_name(), oh.get(i).getBlock_id(),
                             oh.get(i).getRoom_no(), oh.get(i).getCheck_in_date(), oh.get(i).getUnit_type(),
                             oh.get(i).getArea());
                     ownedhouseList.add(ownedhouse);
