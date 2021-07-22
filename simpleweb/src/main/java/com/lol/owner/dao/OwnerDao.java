@@ -20,6 +20,16 @@ public class OwnerDao {
         return null;
     }
 
+    public List<Entity> querybyid(String owner_id) {
+        try {
+            List<Entity> list = Db.use().query("select * from owner where owner_id=?", "%" + owner_id + "%");
+            return list;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
     public PageResult<Entity> queryPager() {
         try {
             PageResult<Entity> result = Db.use().page(Entity.create("Owner"), new Page(1, 5));

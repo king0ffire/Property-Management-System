@@ -2,6 +2,7 @@ package com.lol.owner.api;
 
 import cn.hutool.json.JSONUtil;
 import com.lol.owner.dao.Owner;
+import com.lol.owner.dao.OwnerBean;
 import com.lol.owner.dao.OwnerDao;
 
 import javax.servlet.ServletException;
@@ -27,15 +28,18 @@ public class OwnerUpdateApi extends HttpServlet {
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String owner_phone = req.getParameter("owner_phone");
         String owner_id = req.getParameter("owner_id");
-
-        OwnerDao ownerDao = new OwnerDao();
-        Owner owner = new Owner();
-        owner.setOwner_phone(owner_phone);
-        owner.setOwner_id(owner_id);
-        int res = ownerDao.update(owner);
-
-        String flag = "更新成功：";
-        String json = JSONUtil.toJsonStr(flag + res);
+        int res = 0;
+        if(owner_phone.length() == 11) {
+            OwnerDao ownerDao = new OwnerDao();
+            Owner owner = new Owner();
+            owner.setOwner_phone(owner_phone);
+            owner.setOwner_id(owner_id);
+            res = ownerDao.update(owner);
+        }
+        boolean blres = (res==0?false:true);
+        OwnerBean ownerBean = new OwnerBean();
+        ownerBean.setRes(blres);
+        String json = JSONUtil.toJsonStr(ownerBean);
 
         resp.setContentType("application/json;charset=utf-8");
         PrintWriter pw = resp.getWriter();

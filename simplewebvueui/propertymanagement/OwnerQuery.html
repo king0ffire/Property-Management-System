@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>业主查询</title>
+	</head>
+	<body>
+		<div id="app">
+			<h3>查询</h3>
+			<label>姓名:</label>
+			<input type="text" v-model="ownerName" />
+			<button @click="query()">查询</button>
+			<hr />
+			<h3>业主列表</h3>
+			<button @click="gotoadd()">增加</button>
+			<table border="1">
+				<thead>
+					<tr>
+						<th style="width: 100px;">序号</th>
+						<th style="width: 300px;">业主id</th>
+						<th style="width: 100px;">姓名</th>
+						<th style="width: 100px;">性别</th>
+						<th style="width: 100px;">籍贯</th>
+						<th style="width: 200px;">手机号</th>
+						<th style="width: 200px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(item, index) in list">
+						<td>{{index + 1 }}</td>
+						<td>{{item.owner_id}}</td>
+						<td>{{item.owner_name}}</td>
+						<td>{{item.owner_gender}}</td>
+						<td>{{item.owner_hometown}}</td>
+						<td>{{item.owner_phone}}</td>
+						<td>
+							<button @click="gotoupdate(item.owner_id)">修改</button>
+							<a href="">删除</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<span v-if="isshow">暂时没有数据</span>
+		</div>
+		<script src="../js/vue.js"></script>
+		<script src="../js/axios.js"></script>
+		<script>
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					ownerName: "",
+					list: [],
+					isshow: true
+				},
+				methods: {
+					query: function() {
+						console.log(this.ownerName);
+						axios({
+							headers: {'content-type': 'application/x-www-form-urlencoded'},
+							method: "post",
+							url: "http://localhost:8888/simpleweb/owner/query",
+							data : "owner_name=" + this.ownerName
+						}).then((res) => {
+							console.log(res.data);
+							if(res.data.length > 0) {
+								this.list = res.data;
+								this.isshow = false;
+							} else {
+								this.list = [];
+								this.isshow = true;
+							}
+							
+						}).catch((error )=> {
+							console.log(error);
+						});
+					}
+					,
+					gotoadd: function() {
+						location.href = "OwnerAdd.html";
+					},
+					gotoupdate: function(owner_id) {
+						location.href = "OwnerUpdate.html?owner_id=" + owner_id;
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
