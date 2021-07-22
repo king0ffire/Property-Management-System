@@ -33,45 +33,43 @@ public class querytotalfee extends HttpServlet {
         Date tdate = null;
         String date = req.getParameter("date");
         System.out.println(date);
-
-        String pattern1 = ".{4}.*";
-        String pattern2 = ".{4}-.{2}.*";
-        String pattern3 = ".{4}-.{2}-.{2}.*";
-        Boolean m1 = Pattern.matches(pattern1, date);
-        Boolean m2 = Pattern.matches(pattern2, date);
-        Boolean m3 = Pattern.matches(pattern3, date);
-        System.out.println(m1.toString() + m2.toString() + m3.toString());
-        if (m3 == true) {
-            try {
-                tdate = Date.valueOf(date);
-                System.out.println("5" + tdate);
-            } catch (Exception e) {
-                System.out.println("catch!1");
-                json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
-            }
-        } else if (m2 == true) {
-            try {
-                tdate = Date.valueOf(date + "-01");
-            } catch (Exception e) {
-                System.out.println("catch!2");
-                json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
-            }
-        } else if (m1 == true) {
-            try {
-                tdate = Date.valueOf(date + "-01-01");
-            } catch (Exception e) {
-                System.out.println("catch!3");
-                json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
+        if(date.equals(""))
+        {
+            date=null;
+        }else {
+            String pattern1 = ".{4}.*";
+            String pattern2 = ".{4}-.{2}.*";
+            String pattern3 = ".{4}-.{2}-.{2}.*";
+            Boolean m1 = Pattern.matches(pattern1, date);
+            Boolean m2 = Pattern.matches(pattern2, date);
+            Boolean m3 = Pattern.matches(pattern3, date);
+            System.out.println(m1.toString() + m2.toString() + m3.toString());
+            if (m3 == true) {
+                try {
+                    tdate = Date.valueOf(date);
+                    System.out.println("5" + tdate);
+                } catch (Exception e) {
+                    System.out.println("catch!1");
+                    json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
+                }
+            } else if (m2 == true) {
+                try {
+                    tdate = Date.valueOf(date + "-01");
+                } catch (Exception e) {
+                    System.out.println("catch!2");
+                    json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
+                }
+            } else if (m1 == true) {
+                try {
+                    tdate = Date.valueOf(date + "-01-01");
+                } catch (Exception e) {
+                    System.out.println("catch!3");
+                    json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
+                }
             }
         }
-
         Totalfee totalfee = new Totalfee();
-        System.out.println("3" + totalfee.totalFee(date));
-
         json = JSONUtil.toJsonStr(totalfee.totalFee(date));
-
-        System.out.println("4" + json);
-
         resp.setContentType("application/json;charset=utf-8");
         PrintWriter pw = resp.getWriter();
         pw.write(json);

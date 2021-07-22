@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
-@WebServlet(name = "totalpropertyapi", urlPatterns = "/statistics/totalproperty")
+@WebServlet(name = "totalpropertyapi", urlPatterns = "/statistics/owner/totalproperty")
 public class totalpropertyapi extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

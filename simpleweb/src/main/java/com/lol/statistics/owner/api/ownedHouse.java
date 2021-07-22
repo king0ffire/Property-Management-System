@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(name = "ownedHouse", urlPatterns = "/statistics/ownedhouse")
+@WebServlet(name = "ownedHouse", urlPatterns = "/statistics/owner/ownedhouse")
 public class ownedHouse extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

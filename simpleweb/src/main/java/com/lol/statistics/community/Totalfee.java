@@ -3,15 +3,15 @@ package com.lol.statistics.community;
 import org.testng.annotations.Test;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Totalfee {
     @Test
-    public Map<String, Double> totalFee(String date) {   //小区总费用的查询：日期和费用产生原因（物业费，电费，维修费，水费，停车费，燃气费）。date限制：2001，2001
+    public List<Fee> totalFee(String date) {   //小区总费用的查询：日期和费用产生原因（物业费，电费，维修费，水费，停车费，燃气费）。date限制：2001，2001
         // -01，2001-01-01
         Connection connection = null;
-        Map<String, Double> map = new HashMap<>();
+        List<Fee> list = new ArrayList<>();
         PreparedStatement preparedStatement = null;
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -23,7 +23,6 @@ public class Totalfee {
             if (date == null) {
                 preparedStatement = connection.prepareStatement("SELECT cost_reason,sum(cost_total) FROM cost GROUP " +
                         "BY cost_reason");
-                preparedStatement.setString(1, date + "%");
             } else {
                 preparedStatement = connection.prepareStatement("SELECT cost_reason,sum(cost_total) FROM cost WHERE " +
                         "DATE_FORMAT(cost_time,'%Y-%m-%d') LIKE ? GROUP BY cost_reason");
@@ -33,7 +32,10 @@ public class Totalfee {
 
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                map.put(rs.getString(1), rs.getDouble(2));
+                String cost_reason=rs.getString(1);
+                double cost_total=rs.getDouble(2);
+                Fee fee=new Fee(cost_reason,cost_total);
+                list.add(fee);
             }
 
 
@@ -46,7 +48,7 @@ public class Totalfee {
                 throwables.printStackTrace();
             }
         }
-        return map;
+        return list;
     }
 
 }

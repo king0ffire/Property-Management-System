@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>业主查询</title>
+	</head>
+	<body>
+		<div id="app">
+			<h3>查询</h3>
+			<label>日期限制:</label>
+			<input type="text" v-model="date" />
+			<button @click="query()">查询</button>
+			<button @click="back()">返回上一级</button>
+			<hr />
+			<h3>应收取费用</h3>
+			<table border="1">
+				<thead>
+					<tr>
+						<th style="width: 50px;">序号</th>
+						<th style="width: 100px;">费用类型</th>
+						<th style="width: 100px;">总和</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(item, index) in list">
+						<td>{{index + 1 }}</td>
+						<td>{{item.cost_reason}}</td>
+						<td>{{item.cost_total}}元</td>
+					</tr>
+				</tbody>
+			</table>
+			<span v-if="isshow">暂时没有数据</span>
+		</div>
+		<script src="./js/vue.js"></script>
+		<script src="./js/axios.js"></script>
+		<script>
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					date: "",
+					list: [],
+					isshow: true
+				},
+				methods: {
+					query: function() {
+						console.log(this.date);
+						axios({
+							headers: {'content-type': 'application/x-www-form-urlencoded'},
+							method: "post",
+							url: "http://localhost:8888/simpleweb/statistics/community/totalfee",
+							data : "date=" + this.date
+						}).then((res) => {
+							console.log(res.data);
+							if(res.data.length > 0) {
+								this.list = res.data;
+								this.isshow = false;
+							} else {
+								this.list = [];
+								this.isshow = true;
+							}
+							
+						}).catch((error )=> {
+							console.log(error);
+						});
+					}
+					,
+					gotoadd: function() {
+						location.href = "OwnerAdd.html";
+					},
+					gotoupdate: function(owner_id) {
+						location.href = "OwnerUpdate.html?owner_id=" + owner_id;
+					},
+					back:function(){
+						location.href="statistics.html";
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
