@@ -9,5 +9,4 @@ public class Owner {
     private String owner_gender;
     private String owner_hometown;
     private String owner_phone;
-    private boolean blres;
 }

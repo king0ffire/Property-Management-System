@@ -2,6 +2,7 @@ package com.lol.owner.api;
 
 import cn.hutool.json.JSONUtil;
 import com.lol.owner.dao.Owner;
+import com.lol.owner.dao.OwnerBean;
 import com.lol.owner.dao.OwnerDao;
 
 import javax.servlet.ServletException;
@@ -30,16 +31,23 @@ public class OwnerAddApi extends HttpServlet {
         String owner_hometown = req.getParameter("owner_hometown");
         String owner_phone = req.getParameter("owner_phone");
 
+        int gender = Integer.parseInt(owner_gender);
         OwnerDao ownerDao = new OwnerDao();
         Owner owner = new Owner();
         owner.setOwner_name(owner_name);
-        owner.setOwner_gender(owner_gender);
+        if(gender == 1) {
+            owner.setOwner_gender("男");
+        } else {
+            owner.setOwner_gender("女");
+        }
         owner.setOwner_hometown(owner_hometown);
         owner.setOwner_phone(owner_phone);
         int res = ownerDao.insert(owner);
+        boolean blres = (res==0?false:true);
 
-        String flag = "插入成功：";
-        String json = JSONUtil.toJsonStr(flag + res);
+        OwnerBean ownerBean = new OwnerBean();
+        ownerBean.setRes(blres);
+        String json = JSONUtil.toJsonStr(ownerBean);
 
         resp.setContentType("application/json;charset=utf-8");
         PrintWriter pw = resp.getWriter();

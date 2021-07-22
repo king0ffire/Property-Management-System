@@ -15,9 +15,10 @@
 						<td style="width: 200px;">
 							<input type="text" v-model="ownerName" />
 						</td>
-						<!-- <td>
-							<span v-if="isShowError" style="color: red;">error</span>
-						</td> -->
+						<td>
+							<span v-if="isShowErrorName" style="color: red;">请输入至少1个且小于3个字符</span>
+							<span v-else ></span>
+						</td>
 					</tr>
 					<tr>
 						<th style="width: 70px;">
@@ -29,12 +30,7 @@
 							            <option value="2">女</option>					            					
 							</select>
 						</td>
-						<!-- <td>
-							<span v-if="isShowError" style="color: red;">error</span>
-						</td> -->
-					</tr>
-					
-					
+					</tr>				
 					<tr>
 						<th style="width: 70px;">
 							<label>籍贯*</label>
@@ -42,9 +38,10 @@
 						<td style="width: 200px;">
 							<input type="text" v-model="ownerHometown" />
 						</td>
-						<!-- <td>
-							<span v-if="isShowError" style="color: red;">error</span>
-						</td> -->
+						<td>
+							<span v-if="isShowErrorHometown" style="color: red;">请输入至少1个且小于10个字符</span>
+							<span v-else ></span>
+						</td>
 					</tr>
 					<tr>
 						<th style="width: 70px;">
@@ -54,7 +51,8 @@
 							<input type="text" v-model="ownerPhone" />
 						</td>
 						<td>
-							<span v-if="isShowError" style="color: red;">请输入11位字符</span>
+							<span v-if="isShowErrorPhone" style="color: red;">请输入11位字符</span>
+							<span v-else ></span>
 						</td>
 					</tr>
 					
@@ -69,11 +67,17 @@
 						</td>
 						<td></td>
 					</tr>
-					<!-- <tr>
+					<tr>
 						<td></td>
-						<td><span v-if="isGlobaErrorShow" style="color: red;">增加失败</span></td>
+						<td>
+							<span v-if="isGlobaErrorShow" style="color: red;">增加失败</span>
+							<span v-else ></span>
+							<span v-if="isSuccessShow" style="color: green;">增加成功</span>
+							<span v-else ></span>
+						</td>
+						
 						<td></td>
-					</tr> -->
+					</tr>
 				</tbody>
 			</table>
 		</div>
@@ -86,19 +90,45 @@
 					ownerName: "",
 					ownerHometown: "",
 					ownerPhone: "",
-					/* isShowError: false,
-					isGlobaErrorShow: false */
+					isShowErrorName: false,
+					isShowErrorHometown: false,
+					isShowErrorPhone:false,	
+									
+					isGlobaErrorShow: false,
+					isSuccessShow: false,
 				},
 				methods:{
 					add: function() {
-						/* if(this.paramName == '' || this.paramName ==null) {
-							this.isShowError = true;
-							return;
-						} else if(this.paramName.length > 5) {
-							this.isShowError = true;
-							return;
-						} */
+						this.isShowErrorName=false,
+						this.isShowErrorHometown=false,
+						this.isShowErrorPhone=false,											
+						this.isGlobaErrorShow=false,
+						this.isSuccessShow=false
 						
+						if(this.ownerName == '' || this.ownerName ==null || this.ownerName.length > 3 || this.ownerHometown == '' || this.ownerHometown ==null || this.ownerName.length > 10 || this.ownerPhone == '' || this.ownerPhone ==null || this.ownerPhone.length <= 10 || this.ownerPhone.length >= 12) {
+							
+							this.isGlobaErrorShow = true;
+							if(this.ownerName == '' || this.ownerName ==null) {
+								this.isShowErrorName = true;
+							} else if(this.ownerName.length > 3) {
+								this.isShowErrorName = true;
+							}
+							
+							if(this.ownerHometown == '' || this.ownerHometown ==null) {
+								this.isShowErrorHometown = true;
+							} else if (this.ownerHometown.length > 10){
+								this.isShowErrorHometown = true;
+							}
+							
+							if(this.ownerPhone == '' || this.ownerPhone ==null) {
+								this.isShowErrorPhone = true;
+							} else if(this.ownerPhone.length <= 10 || this.ownerPhone.length >= 12) {
+								this.isShowErrorPhone = true;
+							}
+							return;
+						} 
+						
+												
 						axios({
 							headers: {'content-type': 'application/x-www-form-urlencoded'},
 							method: "post",
@@ -107,17 +137,14 @@
 									"owner_gender=" + document.getElementById('og').options[document.getElementById('og').selectedIndex].value + "&" +
 									"owner_hometown=" + this.ownerHometown + "&" +
 									"owner_phone=" + this.ownerPhone,
-							
-							
-									
-							
+														
 						}).then((res) => {
 							console.log(res.data);
-							/* if(res.data.res) {
-								location.href = "querydemo.html";
+							if(res.data.res) {
+								this.isSuccessShow = true;
 							} else {
-								this.isGlobaErrorShow = true;
-							} */
+								
+							}
 						}).catch((error )=> {
 							console.log(error);
 						});

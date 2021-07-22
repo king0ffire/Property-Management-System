@@ -29,13 +29,13 @@ public class OwnerUpdateApi extends HttpServlet {
         String owner_phone = req.getParameter("owner_phone");
         String owner_id = req.getParameter("owner_id");
         int res = 0;
-        if(owner_phone.length() == 11) {
+
             OwnerDao ownerDao = new OwnerDao();
             Owner owner = new Owner();
             owner.setOwner_phone(owner_phone);
             owner.setOwner_id(owner_id);
             res = ownerDao.update(owner);
-        }
+
         boolean blres = (res==0?false:true);
         OwnerBean ownerBean = new OwnerBean();
         ownerBean.setRes(blres);

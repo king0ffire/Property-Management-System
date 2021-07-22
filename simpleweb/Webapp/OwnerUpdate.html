@@ -17,6 +17,7 @@
 						</td>
 						<td>
 							<span v-if="isShowError" style="color: red;">请输入11个字符</span>
+							<span v-else ></span>
 						</td>
 					</tr>
 					<tr>
@@ -33,6 +34,8 @@
 						<td></td>
 						<td>
 							<span v-if="isGlobaErrorShow" style="color: red;">修改失败</span>
+							<span v-else ></span>
+							<span v-if="isSuccessShow" style="color: green;">修改成功</span>
 							<span v-else ></span>
 						</td>						
 						<td></td>												
@@ -51,9 +54,24 @@
 					ownerPhone: "",
 					isShowError: false,
 					isGlobaErrorShow: false,
+					isSuccessShow: false,
 				},
 				methods:{
 					update: function() {
+						this.isShowError = false;
+						this.isGlobaErrorShow = false;
+						this.isSuccessShow = false;
+						
+						if(this.ownerPhone == '' || this.ownerPhone ==null) {
+							this.isShowError = true;
+							this.isGlobaErrorShow = true;
+							return;
+						} else if(this.ownerPhone.length <=10 || this.ownerPhone.length >=12) {
+							this.isShowError = true;
+							this.isGlobaErrorShow = true;
+							return;
+						}
+						
 						axios({
 							headers: {'content-type': 'application/x-www-form-urlencoded'},
 							method: "post",
@@ -63,10 +81,9 @@
 						}).then((res) => {
 							console.log(res);
 							if(res.data.res) {
-								
+								this.isSuccessShow = true;
 							} else {
-								this.isGlobaErrorShow = true;
-								this.isShowError = true;
+								
 							}														
 						}).catch((error )=> {
 							console.log(error);
