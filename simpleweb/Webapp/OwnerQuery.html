@@ -35,7 +35,7 @@
 						<td>{{item.owner_phone}}</td>
 						<td>
 							<button @click="gotoupdate(item.owner_id)">修改</button>
-							<a href="">删除</a>
+							<button @click="gotodelete(item.owner_id)">删除</button>
 						</td>
 					</tr>
 				</tbody>
@@ -80,7 +80,10 @@
 					},
 					gotoupdate: function(owner_id) {
 						location.href = "OwnerUpdate.html?owner_id=" + owner_id;
-					}
+					},
+					gotodelete: function(owner_id) {
+						location.href = "OwnerDelete.html?owner_id=" + owner_id;
+					},
 				}
 			});
 		</script>
