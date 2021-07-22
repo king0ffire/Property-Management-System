@@ -46,11 +46,11 @@ public class houseTotalfee extends HttpServlet {
         if (bl) {
             for (int i = 0; i < HOCP.size(); i++) {
                 Housefeeinfo housefeeinfo = null;
-                if (property_id != null) {
+                if (property_id != null&&property_id!="") {
                     System.out.println("property_id:                 "+property_id);
                     System.out.println("HOCP.get(i).getProperty_id():"+HOCP.get(i).getProperty_id());
                     if (property_id.equals(HOCP.get(i).getProperty_id())) {
-                        housefeeinfo = new Housefeeinfo(HOCP.get(i).getBlock_id(), HOCP.get(i).getRoom_no(),
+                        housefeeinfo = new Housefeeinfo(HOCP.get(i).getProperty_id(),HOCP.get(i).getBlock_id(), HOCP.get(i).getRoom_no(),
                                 HOCP.get(i).getCheck_in_date(), HOCP.get(i).getUnit_type(), HOCP.get(i).getArea(),
                                 HOCP.get(i).getOwner_name(), HOCP.get(i).getCost_reason(), HOCP.get(i).getCost_time()
                                 , HOCP.get(i).getCost_total(), HOCP.get(i).getPay_money(), HOCP.get(i).getPay_time(),
@@ -59,7 +59,7 @@ public class houseTotalfee extends HttpServlet {
                         System.out.println("add!2");
                     }
                 } else {
-                    housefeeinfo = new Housefeeinfo(HOCP.get(i).getBlock_id(), HOCP.get(i).getRoom_no(),
+                    housefeeinfo = new Housefeeinfo(HOCP.get(i).getProperty_id(),HOCP.get(i).getBlock_id(), HOCP.get(i).getRoom_no(),
                             HOCP.get(i).getCheck_in_date(), HOCP.get(i).getUnit_type(), HOCP.get(i).getArea(),
                             HOCP.get(i).getOwner_name(), HOCP.get(i).getCost_reason(), HOCP.get(i).getCost_time(),
                             HOCP.get(i).getCost_total(), HOCP.get(i).getPay_money(), HOCP.get(i).getPay_time(),

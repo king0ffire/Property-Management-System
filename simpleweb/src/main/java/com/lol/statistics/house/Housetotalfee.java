@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Housetotalfee {
     @Test
-    public List<HOCP> houseTotalfee() {
+    public List<HOCP> houseTotalfee() { //按房间查询其收费信息
         Connection connection = null;
         List<HOCP> list = new ArrayList<>();
         try {

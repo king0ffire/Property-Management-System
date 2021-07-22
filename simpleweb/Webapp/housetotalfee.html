@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>业主查询</title>
+	</head>
+	<body>
+		<div id="app">
+			<h3>查询</h3>
+			<label>房间id:</label>
+			<input type="text" v-model="id" />
+			<button @click="query()">查询</button>
+			<button @click="back()">返回上一级</button>
+			<hr />
+			<h3>房间信息与费用总览</h3>
+			<table border="1">
+				<thead>
+					<tr>
+						<th style="width: 50px;">序号</th>
+						<th style="width: 50px;">楼宇号</th>
+						<th style="width: 100px;">房间号</th>
+						<th style="width: 100px;">验收时间</th>
+						<th style="width: 100px;">户型</th>
+						<th style="width: 100px;">面积</th>
+						<th style="width: 100px;">业主</th>
+						<th style="width: 100px;">费用类型</th>
+						<th style="width: 100px;">总和</th>
+						<th style="width: 100px;">已支付总和</th>
+						<th style="width: 100px;">支付时间</th>
+						<th style="width: 100px;">结余</th>
+						<th style="width: 100px;">支付备注</th>
+						<th style="width: 200px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(item, index) in list">
+						<td>{{index + 1 }}</td>
+						<td>{{item.block_id}}</td>
+						<td>{{item.room_no}}</td>
+						<td>{{item.cdate}}</td>
+						<td>{{item.unit_type}}</td>
+						<td>{{item.area}}</td>
+						<td>{{item.owner_name}}</td>
+						<td>{{item.cost_reason}}</td>
+						<td>{{item.cost_total}}</td>
+						<td>{{item.pay_money}}元</td>
+						<td>{{item.ptime}}</td>
+						<td>{{item.pay_money-item.cost_total}}元</td>
+						<td>{{item.pay_remark}}</td>
+						<td v-if="item.idshow">{{item.property_id}}</td>
+						<td v-else><button @click="setid(index)">查看id</button></td>
+					</tr>
+				</tbody>
+			</table>
+			<span v-if="isshow">暂时没有数据</span>
+		</div>
+		<script src="./js/vue.js"></script>
+		<script src="./js/axios.js"></script>
+		<script>
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					id: "",
+					list: [],
+					isshow: true
+				},
+				methods: {
+					query: function() {
+						axios({
+							headers: {'content-type': 'application/x-www-form-urlencoded'},
+							method: "post",
+							url: "http://localhost:8888/simpleweb/statistics/house/totalfee",
+							data:"id="+this.id
+						}).then((res) => {
+							console.log(res.data);
+							if(res.data.length > 0) {
+								this.list = res.data;
+								for(let i=0;i<this.list.length;i++)
+								{
+									this.list[i].idshow=false;
+									this.list[i].tindex=i;
+									var tdate = new Date(this.list[i].check_in_date);
+									this.list[i].cdate=tdate.getFullYear()+"-"+(parseInt(tdate.getMonth())+1).toString()+"-"+tdate.getDate();
+									var ttime = new Date(this.list[i].pay_time);
+									this.list[i].ptime=ttime.getFullYear()+"-"+(parseInt(ttime.getMonth())+1).toString()+"-"+ttime.getDate();
+								}
+								this.isshow = false;
+							} else {
+								this.list = [];
+								this.isshow = true;
+							}
+							
+						}).catch((error )=> {
+							console.log(error);
+						});
+					}
+					,
+					gotoadd: function() {
+						location.href = "OwnerAdd.html";
+					},
+					gotoupdate: function(owner_id) {
+						location.href = "OwnerUpdate.html?owner_id=" + owner_id;
+					},
+					back:function(){
+						location.href="statistics.html";
+					},
+					setid:function(index)
+					{
+						console.log("setid!!!");
+						this.list[index].idshow=true;
+						this.list.push({id:1});
+						this.list.pop();
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
