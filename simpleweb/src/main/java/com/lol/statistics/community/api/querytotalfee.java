@@ -29,17 +29,19 @@ public class querytotalfee extends HttpServlet {
 
     private void doHttp(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         Boolean bl = false;
-        String json = null;
+        String json = "";
         Date tdate = null;
         String date = req.getParameter("date");
         System.out.println(date);
         if(date.equals(""))
         {
             date=null;
+            Totalfee totalfee = new Totalfee();
+            json = JSONUtil.toJsonStr(totalfee.totalFee(date));
         }else {
-            String pattern1 = ".{4}.*";
-            String pattern2 = ".{4}-.{2}.*";
-            String pattern3 = ".{4}-.{2}-.{2}.*";
+            String pattern1 = "[0-9]{4}";
+            String pattern2 = "[0-9]{4}-[0-9]{2}";
+            String pattern3 = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
             Boolean m1 = Pattern.matches(pattern1, date);
             Boolean m2 = Pattern.matches(pattern2, date);
             Boolean m3 = Pattern.matches(pattern3, date);
@@ -47,29 +49,34 @@ public class querytotalfee extends HttpServlet {
             if (m3 == true) {
                 try {
                     tdate = Date.valueOf(date);
-                    System.out.println("5" + tdate);
+                    Totalfee totalfee = new Totalfee();
+                    json = JSONUtil.toJsonStr(totalfee.totalFee(date));
                 } catch (Exception e) {
                     System.out.println("catch!1");
-                    json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
+                    json = "date format error";
                 }
             } else if (m2 == true) {
                 try {
                     tdate = Date.valueOf(date + "-01");
+                    Totalfee totalfee = new Totalfee();
+                    json = JSONUtil.toJsonStr(totalfee.totalFee(date));
                 } catch (Exception e) {
                     System.out.println("catch!2");
-                    json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
+                    json = "date format error";
                 }
             } else if (m1 == true) {
                 try {
                     tdate = Date.valueOf(date + "-01-01");
+                    Totalfee totalfee = new Totalfee();
+                    json = JSONUtil.toJsonStr(totalfee.totalFee(date));
                 } catch (Exception e) {
                     System.out.println("catch!3");
-                    json = "你不会输入日期还是从小到大没人教过你年月日怎么写？";
+                    json = "date format error";
                 }
+            } else {
+                json = "date format error";
             }
         }
-        Totalfee totalfee = new Totalfee();
-        json = JSONUtil.toJsonStr(totalfee.totalFee(date));
         resp.setContentType("application/json;charset=utf-8");
         PrintWriter pw = resp.getWriter();
         pw.write(json);
